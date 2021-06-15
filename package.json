@@ -1,0 +1,36 @@
+{
+  "name": "url-shortner",
+  "version": "1.0.0",
+  "description": "URL Shortner using Node.Js",
+  "main": "backend/serve.js",
+  "scripts": {
+    "serve": "node ./backend/serve.js",
+    "serve:dev": "nodemon ./backend/serve.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PankajMSharma/url-shortner.git"
+  },
+  "keywords": [
+    "Node.js",
+    "JavaScript",
+    "URL-Shortner"
+  ],
+  "author": "Pankaj Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PankajMSharma/url-shortner/issues"
+  },
+  "homepage": "https://github.com/PankajMSharma/url-shortner#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mocha": "^9.0.0",
+    "mysql2-promise": "^0.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
