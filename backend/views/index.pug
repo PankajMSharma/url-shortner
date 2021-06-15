@@ -1,0 +1,29 @@
+html
+  head
+    link(rel='stylesheet',href='/static/index.css')
+    title="Pocket URL Shortner"
+  body
+    .fx.container
+        input(type="text", placeholder="Enter URL").url-input.fx-1
+        input(type="button", value="Submit Url").submit-url.fx-0
+
+    mixin table-row(tableRow)
+        tr
+            td(data-label="Sr. No") #{tableRow.srNum}
+            td.min(data-label="URL")
+                a(href=tableRow.shortUrl) #{tableRow.shortUrl}
+            td.min(data-label="Frequency") #{tableRow.frequency}
+        
+    .container
+        .event-registration.reset
+            .content.wide
+                .row-inset
+                    table.table-default.table-striped.table-bordered.sortable
+                        thead
+                            tr
+                                th Sr. No.
+                                th Short URL
+                                th Frequency
+                        tbody
+                            each tableRow in tableRows
+                                +table-row(tableRow)
