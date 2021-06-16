@@ -1,10 +1,13 @@
 require('dotenv').config({ path: './.env' });
+const logger = require('./logger')
 const express = require('express');
 const { HTTP_STATUS } = require('./consts/http-error-status');
 const cors = require('cors');
 var path = require('path');
+require('./database/db.config')
 
 const customResponse = require('./response');
+
 const DEFAULT_PORT = 4201;
 
 /* 
@@ -12,6 +15,7 @@ const DEFAULT_PORT = 4201;
  */
 if (!process.env.BACKEND_HOSTNAME) {
     console.warn('.ENV file not found.')
+    logger.warn('.ENV file not found.')
 }
 
 const app = express();
@@ -47,7 +51,7 @@ app.get('', function (req, res) {
  * Global Exception Handeler for all HTTP requests
 **/
 function globalErrorHandler (err, req, res, next) {
-    console.log('Into Global Error Handeler ', res.status)
+    logger.error(`Global Error Handeler Found Error: ${err.stack}`)
     const error = customResponse.create(null, HTTP_STATUS.INTERNAL_SERVER_ERROR.message,
                                         HTTP_STATUS.INTERNAL_SERVER_ERROR.code, err);
 
@@ -62,5 +66,6 @@ app.use(globalErrorHandler);
  * Start node application
 **/
 app.listen(process.env.BACKEND_PORT || DEFAULT_PORT, function() {
-    console.log(`App Server listening at http://${process.env.BACKEND_HOSTNAME}:${process.env.BACKEND_PORT || DEFAULT_PORT}`)
+    const logMessage = `App Server listening at http://${process.env.BACKEND_HOSTNAME}:${process.env.BACKEND_PORT || DEFAULT_PORT}`;
+    logger.info(logMessage)
 });

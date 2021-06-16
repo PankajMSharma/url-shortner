@@ -29,7 +29,8 @@
     "express": "^4.17.1",
     "mocha": "^9.0.0",
     "mysql2-promise": "^0.1.4",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
