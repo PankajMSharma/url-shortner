@@ -26,7 +26,7 @@ CREATE TABLE `urls` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `short_url_code` varchar(10) NOT NULL,
   `long_url` varchar(2048) NOT NULL,
-  `usage_frequency` bigint(20) NOT NULL,
+  `clicks` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `short_url_code` (`short_url_code`),
   UNIQUE KEY `long_url` (`long_url`)
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-16  7:07:31
+-- Dump completed on 2021-06-18 10:24:26

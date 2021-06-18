@@ -93,6 +93,10 @@ a {
   flex: 0;
 }
 
+.place-end {
+  place-content: flex-end;
+}
+
 .url-input {
   padding: 0.4em;
 }
@@ -104,4 +108,49 @@ a {
   border-style: none;
   border-radius: 4px;
   color: #ffffff;
+}
+
+#url-creation-response-container {
+  place-content: center;
+  display: none;
+  border-color: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  margin: 1em 0em;
+  box-shadow: 2px 4px 1px #f6f6f6;
+}
+
+#url-creation-response-container > #url-creation-response {
+  padding: 0.7em;
+  place-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 2px 4px 1px #f6f6f6;
+}
+
+.pagination-link {
+  margin-top: 1em;
+  padding: .4em;
+  background: #fff;
+  color: #000000;
+  border-color: #919191;
+  border-style: solid;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px #919191;
+}
+
+.pagination-link.next {
+  margin-left: 1em;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+input[disabled=true] {
+  opacity: 0.4;
+  cursor: not-allowed !important;
 }

@@ -1,1 +1,15 @@
 GET http://localhost:4201/
+
+### Create Short Url
+POST http://localhost:4201/url
+Content-Type: application/json
+
+{
+    "longUrl": "https://hitadddssh.com"
+}
+
+### Visit Link
+GET http://localhost:4201/Z0q
+
+### Visit Link
+GET http://localhost:4201/01q

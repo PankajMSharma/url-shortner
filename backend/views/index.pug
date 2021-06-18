@@ -2,28 +2,110 @@ html
   head
     link(rel='stylesheet',href='/static/index.css')
     title="Pocket URL Shortner"
+    script(type='text/javascript').
+        // const { env } = require('./env.js');
+        // console.log(env)
+        var urlInputElement, responseElement, submitUrlButton;
+        var urlString = window.location.href
+        var url = new URL(urlString);
+        var offset = url.searchParams.get("offset") ? url.searchParams.get("offset") : 0;
+        var limit = url.searchParams.get("limit") ? url.searchParams.get("limit") : 10;
+
+        function initialize() {
+            urlInputElement = document.getElementById('url-input');
+            urlResponseElement = document.getElementById('url-creation-response')
+            urlResponseContainer = document.getElementById('url-creation-response-container')
+            submitUrlButton = document.getElementById('submit-url-button')
+
+            if (urlResponseContainer) urlResponseContainer.style.display = 'none';
+        }
+
+        function previousPage() {
+            offset = offset - limit > 0 ? offset - limit : 0;
+            window.location = `http://localhost:4201?offset=${offset}&limit=${limit}`;
+        }
+
+        function nextPage() {
+            window.location = `http://localhost:4201?offset=${+offset + +limit}&limit=${limit}`;
+        }
+
+        function disableSubmitButton() {
+            submitUrlButton.disabled = !urlInputElement.value;
+        }
+
+        function createLongUrl() {
+            if (!urlInputElement || !urlResponseElement || !urlResponseContainer) {
+                alert('Element not found')
+                return;
+            }
+
+            urlResponseContainer.style.display = 'none';
+
+            // Request to create short url
+            var http = new XMLHttpRequest();
+            var url = 'http://localhost:4201/url';
+            http.open('POST', url, true);
+            var body = JSON.stringify({ "longUrl": urlInputElement.value });
+            http.setRequestHeader('Content-type', 'application/json');
+
+            http.onreadystatechange = function() {//Call a function when the state changes.
+                if(http.readyState === 4) {
+                    if (http.status === 201) {
+                        urlResponseElement.innerHTML = 'Generated Short New Url http://localhost:4201/' + JSON.parse(http.response).shortUrlCode
+                        urlResponseContainer.style.display = 'block';
+                        urlResponseElement.style.color = 'green';
+
+                    } else if(http.status === 205) {
+                        urlResponseElement.innerHTML = 'URL already exists'
+                        urlResponseContainer.style.display = 'block';
+                        urlResponseElement.style.color = 'red';
+                    } else if(http.status === 400) {
+                        urlResponseElement.innerHTML = 'Please add value for URL'
+                        urlResponseContainer.style.display = 'block';
+                        urlResponseElement.style.color = 'red';
+                    } else {
+                        console.log(http.response)
+                        alert('Failed to create Short Url')
+                    }
+                }
+            }
+            http.send(body);
+        }
+
+        window.onload = initialize;
   body
     .fx.container
-        input(type="text", placeholder="Enter URL").url-input.fx-1
-        input(type="button", value="Submit Url").submit-url.fx-0
+        input(type="text", placeholder="Enter URL", onkeyup="disableSubmitButton()")#url-input.url-input.fx-1
+        input(type="button", value="Submit Url", onclick="createLongUrl()", disabled="true").submit-url.fx-0.pointer#submit-url-button
+
+    .fx#url-creation-response-container
+        #url-creation-response
 
     mixin table-row(tableRow)
         tr
             td(data-label="Sr. No") #{tableRow.srNum}
             td.min(data-label="URL")
                 a(href=tableRow.shortUrl) #{tableRow.shortUrl}
-            td.min(data-label="Frequency") #{tableRow.frequency}
-        
+            td.min(data-label="Clicks") #{tableRow.clicks}
+    
     .container
+        h2 URLs
         .event-registration.reset
             .content.wide
                 .row-inset
-                    table.table-default.table-striped.table-bordered.sortable
+                    table.table-default.table-striped.table-bordered
                         thead
                             tr
                                 th Sr. No.
                                 th Short URL
-                                th Frequency
+                                th Clicks
                         tbody
-                            each tableRow in tableRows
-                                +table-row(tableRow)
+                            if tableRows && tableRows.length > 0
+                                each tableRow in tableRows
+                                    +table-row(tableRow)
+                            else
+                                tr
+                                    td(colspan="3") No Record Found
+                    .fx.place-end
+                        input(type="button", value="Previous Page", onclick="previousPage()").fx-0.pagination-link.pointer
+                        input(type="button", value="Next Page", onclick="nextPage()").fx-0.pagination-link.next.pointer
