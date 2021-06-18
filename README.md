@@ -20,7 +20,12 @@ Pankaj Sharma
 -   Update Database config details in .env file
 -   In CMD, RUN `mysqldump -u -p "~\url-shortner\backend\dump.sql" < url_shortner_db`
 -   RUN `npm i`
--   RUN `npm run serve` for production or `npm run serve:dev` for development
+-   RUN `npm run serve` to deploy
+-   On Browser visit `http://localhost:4201` (This URL could be different for different config in .ENV file)
+-   Note: If BACKEND_URL or BACKEND_PORT is changed in .ENV File, you also need to change CONSTS in ~/views/index.pug
+
+# TO RUN TEST CASES
+-   RUN `npm run test`
 
 # How to test backend requests
 -   Install Visual Studio Code (VSCode)

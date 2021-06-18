@@ -3,8 +3,9 @@ html
     link(rel='stylesheet',href='/static/index.css')
     title="Pocket URL Shortner"
     script(type='text/javascript').
-        // const { env } = require('./env.js');
-        // console.log(env)
+        const CONSTS = { BACKEND_HOST: 'localhost', BACKEND_PORT: '4201'}
+
+        if ('%dadas%') console.log('Path present')
         var urlInputElement, responseElement, submitUrlButton;
         var urlString = window.location.href
         var url = new URL(urlString);
@@ -22,11 +23,11 @@ html
 
         function previousPage() {
             offset = offset - limit > 0 ? offset - limit : 0;
-            window.location = `http://localhost:4201?offset=${offset}&limit=${limit}`;
+            window.location = `http://${CONSTS.BACKEND_HOST}:${CONSTS.BACKEND_PORT}?offset=${offset}&limit=${limit}`;
         }
 
         function nextPage() {
-            window.location = `http://localhost:4201?offset=${+offset + +limit}&limit=${limit}`;
+            window.location = `http://${CONSTS.BACKEND_HOST}:${CONSTS.BACKEND_PORT}?offset=${+offset + +limit}&limit=${limit}`;
         }
 
         function disableSubmitButton() {
@@ -43,7 +44,7 @@ html
 
             // Request to create short url
             var http = new XMLHttpRequest();
-            var url = 'http://localhost:4201/url';
+            var url = `http://${CONSTS.BACKEND_HOST}:${CONSTS.BACKEND_PORT}/url`;
             http.open('POST', url, true);
             var body = JSON.stringify({ "longUrl": urlInputElement.value });
             http.setRequestHeader('Content-type', 'application/json');
@@ -51,7 +52,7 @@ html
             http.onreadystatechange = function() {//Call a function when the state changes.
                 if(http.readyState === 4) {
                     if (http.status === 201) {
-                        urlResponseElement.innerHTML = 'Generated Short New Url http://localhost:4201/' + JSON.parse(http.response).shortUrlCode
+                        urlResponseElement.innerHTML = `Generated Short New Url http://${CONSTS.BACKEND_HOST}:${CONSTS.BACKEND_PORT}/${JSON.parse(http.response).shortUrlCode}`
                         urlResponseContainer.style.display = 'block';
                         urlResponseElement.style.color = 'green';
 
