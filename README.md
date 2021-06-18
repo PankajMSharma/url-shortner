@@ -25,7 +25,8 @@ Pankaj Sharma
 -   Note: If BACKEND_URL or BACKEND_PORT is changed in .ENV File, you also need to change CONSTS in ~/views/index.pug
 
 # TO RUN TEST CASES
--   RUN `npm run test`
+-   RUN `npm run serve` to deploy
+-   RUN `npm run test` to run test cases
 
 # How to test backend requests
 -   Install Visual Studio Code (VSCode)
